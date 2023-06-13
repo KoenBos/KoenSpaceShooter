@@ -1,43 +1,76 @@
-#ifndef RESOURCEMANAGER_H
-#define RESOURCEMANAGER_H
-
-#include <unordered_map>
-#include <string>
-#include "raylib.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include "resourcemanager.h"
 
-// Singleton ResourceManager
-class ResourceManager
+ResourceManager* ResourceManager::_instance = nullptr;
+
+ResourceManager::ResourceManager() {
+
+}
+
+ResourceManager::~ResourceManager(){
+
+}
+
+ResourceManager* ResourceManager::Instance()
 {
-private:
-	std::unordered_map<std::string, Texture2D> textures;
-	static ResourceManager instance;
-
-	// Private constructor to prevent instantiation
-	ResourceManager() {}
-
-public:
-	static ResourceManager& Instance()
+	if (ResourceManager::_instance == nullptr)
 	{
-		return instance;
+		_instance = new ResourceManager();
 	}
+	return _instance;
+}
 
-	Texture2D GetTexture(const std::string& path)
+Texture2D ResourceManager::GetTexture(std::string path)
+{
+	std::cout << "GetTexture called" << std::endl;
+	if (textures.contains(path))
 	{
-		if (textures.contains(path))
+		std::cout << "Existing texture send" << std::endl;
+		return textures[path];
+	}
+	std::cout << "New texture made" << std::endl;
+	Texture2D texture;
+	try
+	{
+		texture = LoadTexture(path.c_str());
+		if (texture.id <= 0)
 		{
-			// Texture already loaded
-			return textures[path];
+			throw texture;
 		}
-
-		// Load the texture from disk
-		Texture2D texture = LoadTexture(path.c_str());
-		textures[path] = texture;
-		return texture;
 	}
-};
+	catch (...)
+	{
+		texture = LoadTexture("assets/placeholder.png");
+	}
+	textures[path] = texture;
+	return texture;
+}
 
-// Define the static member outside the class definition
-ResourceManager ResourceManager::instance;
+Sound ResourceManager::GetSound(std::string path)
+{
+	std::cout << "GetSound called" << std::endl;
+	if (sounds.contains(path))
+	{
+		std::cout << "existing sound sent" << std::endl;
+		return sounds[path];
+	}
+	std::cout << "Loading new sound" << std::endl;
+	Sound sound;
+	sound = LoadSound(path.c_str());
+	sounds[path] = sound;
+	return sound;
+}
 
-#endif // RESOURCEMANAGER_H
+void ResourceManager::Cleanup()
+{
+	std::map<std::string, Texture2D>::iterator text_it;
+	for (text_it = textures.begin(); text_it != textures.end(); ++text_it) {
+		std::cout << "unloading " << text_it->first << std::endl;
+		UnloadTexture(text_it->second);
+	}
+	std::cout << "unloading font\n";
+	UnloadFont(_font);
+}
+

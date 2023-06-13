@@ -1,20 +1,32 @@
 #include "raylib.h"
 #include "player.h"
+#include "bullet.h"
+#include "resourcemanager.h"
 
-constexpr auto SCREEN_WIDTH  = 1920;
-constexpr auto SCREEN_HEIGHT = 1080;
+constexpr auto SCREEN_WIDTH  = 600;
+constexpr auto SCREEN_HEIGHT = 900;
 //------------------------------------------------------------------------------------
 // Module Functions Declaration (local)
 //------------------------------------------------------------------------------------
 
 int main()
 {
-	InitWindow(GetScreenWidth() , GetScreenHeight(), "Window title");
+	InitWindow(SCREEN_WIDTH , SCREEN_HEIGHT, "Window title");
     SetTargetFPS(60);
 	void ToggleFullscreen(void);
 
-    Texture2D texture = LoadTexture(ASSETS_PATH"test.png"); // to resourcemanager
-    Player* player = new Player(texture); // get texture from resourcemanager
+	ResourceManager* rs = ResourceManager::Instance();
+
+	
+    Player* player = new Player(rs->GetTexture(ASSETS_PATH"test.png")); // get texture from resourcemanager
+
+	Bullet* bullet = new Bullet(rs->GetTexture(ASSETS_PATH"bullet.png"));
+
+	player->x = SCREEN_WIDTH / 2;
+	player->y = SCREEN_HEIGHT / 10 * 9;
+
+	bullet->x = SCREEN_WIDTH / 2;
+	bullet->y = SCREEN_HEIGHT / 2;
 
 	while (!WindowShouldClose())
 	{
@@ -23,18 +35,15 @@ int main()
 		ClearBackground(RAYWHITE);
 
 		player->show();
+		bullet->show();
+		bullet->Update();
 		player->Update();
 
-		//const char* text = "Player";
-		//const Vector2 text_size = MeasureTextEx(GetFontDefault(), text, 20, 1);
-		//DrawText(text, SCREEN_WIDTH / 2 - text_size.x / 2, SCREEN_HEIGHT / 2 - texture.height / 2 + texture.height + text_size.y + 10, 20, BLACK);
 
 		EndDrawing();
-		if (IsKeyPressed('P')) {
-			ToggleFullscreen();
-		}
 	}
-	UnloadTexture(texture);
+	//unload all textures
+	//ResourceManager::Cleanup();
 
 	CloseWindow();
 	return 0;
