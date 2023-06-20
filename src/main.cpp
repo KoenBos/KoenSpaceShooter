@@ -1,6 +1,5 @@
 #include "raylib.h"
 #include "player.h"
-#include "bullet.h"
 #include "resourcemanager.h"
 
 constexpr auto SCREEN_WIDTH  = 600;
@@ -20,13 +19,10 @@ int main()
 	
     Player* player = new Player(rs->GetTexture(ASSETS_PATH"test.png")); // get texture from resourcemanager
 
-	Bullet* bullet = new Bullet(rs->GetTexture(ASSETS_PATH"bullet.png"));
 
 	player->x = SCREEN_WIDTH / 2;
 	player->y = SCREEN_HEIGHT / 10 * 9;
 
-	bullet->x = SCREEN_WIDTH / 2;
-	bullet->y = SCREEN_HEIGHT / 2;
 
 	while (!WindowShouldClose())
 	{
@@ -35,9 +31,15 @@ int main()
 		ClearBackground(RAYWHITE);
 
 		player->show();
-		bullet->show();
-		bullet->Update();
+		//bullet->show();
+		//bullet->Update();
+		//player->bullets[0]->show();
 		player->Update();
+		for (int i = 0; i < player->bullets.size(); i++)
+		{
+			player->bullets[i]->show();
+			player->bullets[i]->Update();
+		}
 
 
 		EndDrawing();

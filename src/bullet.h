@@ -11,6 +11,10 @@ public:
 	virtual ~Bullet();
 
 	void Update();
+	Texture2D t;
+
+
+		
 
 private:
 	/* add your private declarations */
