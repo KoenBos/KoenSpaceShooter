@@ -19,11 +19,11 @@ void Player::Update()
 	{
 		if (IsKeyDown('A'))
 		{
-			this->x -= 500 * GetFrameTime();
+			x -= 500 * GetFrameTime();
 		}
 		if (IsKeyDown('D'))
 		{
-			this->x += 500 * GetFrameTime();
+			x += 500 * GetFrameTime();
 		}
 		//if key space is pressed, shoot bullet
 		if (IsKeyPressed(KEY_SPACE))

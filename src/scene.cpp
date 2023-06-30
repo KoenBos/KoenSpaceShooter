@@ -2,8 +2,6 @@
 
 Scene::Scene()
 {
-	x = 3;
-	y = 4;
 
 
 }

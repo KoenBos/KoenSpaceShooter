@@ -11,11 +11,7 @@ public:
 
 	void show();
 	
-	//if(textures.contains(filename))
 
-
-	float x;
-	float y;
 
 private:
 	/* add your private declarations */

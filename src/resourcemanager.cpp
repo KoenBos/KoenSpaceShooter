@@ -24,13 +24,10 @@ ResourceManager* ResourceManager::Instance()
 
 Texture2D ResourceManager::GetTexture(std::string path)
 {
-	std::cout << "GetTexture called" << std::endl;
 	if (textures.contains(path))
 	{
-		std::cout << "Existing texture send" << std::endl;
 		return textures[path];
 	}
-	std::cout << "New texture made" << std::endl;
 	Texture2D texture;
 	try
 	{
@@ -42,7 +39,7 @@ Texture2D ResourceManager::GetTexture(std::string path)
 	}
 	catch (...)
 	{
-		texture = LoadTexture("assets/placeholder.png");
+		texture = LoadTexture("assets/noimage.png");
 	}
 	textures[path] = texture;
 	return texture;
