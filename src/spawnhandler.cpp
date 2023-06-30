@@ -24,7 +24,7 @@ void Spawnhandler::Update()
 void Spawnhandler::Spawn()
 {
 	Enemy* enemy = new Enemy(rs->GetTexture(ASSETS_PATH"enemy.png"));
+	enemys.push_back(enemy);
 	enemy->x = x;
 	enemy->y = y;
-	enemys.push_back(enemy);
 }

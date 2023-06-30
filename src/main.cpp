@@ -49,16 +49,13 @@ int main()
 			player->bullets[i]->Update();
 			for (int j = spawnhandler->enemys.size() - 1; j >= 0; j--)
 			{
-				Enemy*enemy = spawnhandler->enemys[j];
-				Vector2 enemypos = { enemy->x, enemy->y };
-
-				Bullet* bullet = player->bullets[i];
-				Vector2 bulletpos = { bullet->x, bullet->y };
-				if (CheckCollisionCircles(Vector2(bulletpos), 20, Vector2(enemypos), 20))
+				if (CheckCollisionCircles(Vector2(spawnhandler->enemys[j]->x, spawnhandler->enemys[j]->y), 20, Vector2(player->bullets[i]->x, player->bullets[i]->y), 20))
 				{
 					std::cout << "Enemy Hit!" << std::endl;
-					spawnhandler->enemys.erase(spawnhandler->enemys.begin() + j);
+					delete player->bullets[i];
 					player->bullets.erase(player->bullets.begin() + i);
+					delete spawnhandler->enemys[j];
+					spawnhandler->enemys.erase(spawnhandler->enemys.begin() + j);
 				}
 			}
 		}
