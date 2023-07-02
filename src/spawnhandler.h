@@ -14,6 +14,7 @@ public:
 
 	void Update();
 	void Spawn();
+	int wave = 0;
 	ResourceManager* rs = ResourceManager::Instance();
 
 	std::vector<Enemy*> enemys;

@@ -15,9 +15,13 @@ Spawnhandler::~Spawnhandler()
 
 void Spawnhandler::Update()
 {
-	if (IsKeyDown('Q'))
+	if (enemys.size() == 0)
 	{
-		Spawn();
+		for (int i = 0; i < 10 + wave * 2; i++)
+		{
+			Spawn();
+		}
+		wave++;
 	}
 }
 
@@ -26,5 +30,5 @@ void Spawnhandler::Spawn()
 	Enemy* enemy = new Enemy(rs->GetTexture(ASSETS_PATH"enemy.png"));
 	enemys.push_back(enemy);
 	enemy->x = x + GetRandomValue(-270, 220);
-	enemy->y = 0;
+	enemy->y = -200;
 }

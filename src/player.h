@@ -14,8 +14,13 @@ public:
 
 	void Update();
 	void Shoot();
+	void Upgrade();
 	bool alive;
 	int score;
+	int money;
+	int cost = 15;
+	bool multiShot = false;
+	int level = 1;
 	float shootDelay;
 	float delay;
 	int SCREEN_WIDTH;

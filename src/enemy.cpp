@@ -44,5 +44,6 @@ void Enemy::Update()
 		this->x += 5 * sin(GetTime() * 8);
 		this->y -= speed * GetFrameTime();
 	}
+	
 
 }

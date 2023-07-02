@@ -16,7 +16,6 @@ public:
 	Player* player;
 	int health = 100;
 	float speed = 100;
-
 		
 
 private:

@@ -15,6 +15,23 @@ Bullet::~Bullet()
 
 void Bullet::Update()
 {
-	this->y -= speed * GetFrameTime();
+
+	//this->y -= speed * GetFrameTime();
 	this->x += 5 * sin(GetTime() * 100);
+
+	//move bullets up the with the angle and speed variables
+	if (angle == 0)
+	{
+		this->y -= speed * GetFrameTime();
+	}
+	if (angle == 1)
+	{
+		this->y -= speed * GetFrameTime();
+		this->x += speed /2 * GetFrameTime();
+	}
+	if (angle == 2)
+	{
+		this->y -= speed * GetFrameTime();
+		this->x -= speed /2 * GetFrameTime();
+	}
 }

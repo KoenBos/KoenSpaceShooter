@@ -39,12 +39,17 @@ int main()
 		{
 			player->show();
 			player->Update();
-			DrawText(FormatText("Score: %i", player->score), 10, 10, 30, WHITE);
+			DrawText(FormatText("Score: %i", player->score), 10, 10, 20, WHITE);
+			DrawText(FormatText("Wave: %i", spawnhandler->wave), SCREEN_WIDTH / 2 - 50, 10, 30, RED);
+			DrawText(FormatText("$: %i", player->money), SCREEN_WIDTH -100, 10, 20, GOLD);
+			DrawText("E = Upgrade", SCREEN_WIDTH - 150, SCREEN_HEIGHT - 50, 20, WHITE);
+			DrawText(FormatText("Cost: %i", player->level * 15), SCREEN_WIDTH - 120, SCREEN_HEIGHT - 25, 20, BLUE);
 		}
 		else
 		{
-			DrawText(FormatText("Score: %i", player->score), SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 +70, 40, GREEN);
-			DrawText("Game Over", SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2, 50, RED);
+			DrawText(FormatText("Score: %i", player->score), SCREEN_WIDTH / 2 - 80, SCREEN_HEIGHT / 2 - 50, 30, GREEN);
+			DrawText("Game Over", SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2 -100, 50, RED);
+			DrawText(FormatText("Wave: %i", spawnhandler->wave), SCREEN_WIDTH / 2 - 70, SCREEN_HEIGHT / 2 - 20, 30, BLUE);
 		}
 
 
@@ -60,10 +65,12 @@ int main()
 				{
 					if (CheckCollisionCircles(Vector2(spawnhandler->enemys[j]->x, spawnhandler->enemys[j]->y), 20.0f, Vector2(player->bullets[i]->x, player->bullets[i]->y), 20.0f))
 					{
-						delete player->bullets[i];
-						delete spawnhandler->enemys[j];
 						spawnhandler->enemys.erase(spawnhandler->enemys.begin() + j);
+						player->bullets.erase(player->bullets.begin() + i);
 						player->score++;
+						player->money++;
+						break;
+
 					}
 				}
 			}
@@ -84,9 +91,6 @@ int main()
 
 		EndDrawing();
 	}
-	//unload all textures
-	//ResourceManager::Cleanup();
-
 	CloseWindow();
 	return 0;
 }
