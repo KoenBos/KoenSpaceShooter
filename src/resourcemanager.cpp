@@ -45,29 +45,12 @@ Texture2D ResourceManager::GetTexture(std::string path)
 	return texture;
 }
 
-Sound ResourceManager::GetSound(std::string path)
-{
-	std::cout << "GetSound called" << std::endl;
-	if (sounds.contains(path))
-	{
-		std::cout << "existing sound sent" << std::endl;
-		return sounds[path];
-	}
-	std::cout << "Loading new sound" << std::endl;
-	Sound sound;
-	sound = LoadSound(path.c_str());
-	sounds[path] = sound;
-	return sound;
-}
-
 void ResourceManager::Cleanup()
 {
 	std::map<std::string, Texture2D>::iterator text_it;
 	for (text_it = textures.begin(); text_it != textures.end(); ++text_it) {
-		std::cout << "unloading " << text_it->first << std::endl;
 		UnloadTexture(text_it->second);
 	}
-	std::cout << "unloading font\n";
 	UnloadFont(_font);
 }
 
