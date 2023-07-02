@@ -12,6 +12,7 @@ public:
 
 	void Update();
 	Texture2D t;
+	float speed = 500;
 
 
 		

@@ -14,8 +14,6 @@ int main()
 	InitWindow(SCREEN_WIDTH , SCREEN_HEIGHT, "Window title");
     SetTargetFPS(60);
 	void ToggleFullscreen(void);
-	Vector3 vec = { 1.0f, 2.0f, 3.0f };
-	float length_squared = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
 
 	ResourceManager* rs = ResourceManager::Instance();
 
@@ -28,42 +26,57 @@ int main()
 	spawnhandler->y = SCREEN_HEIGHT / 10;
 
 	player->x = SCREEN_WIDTH / 2;
-	player->y = SCREEN_HEIGHT / 10 * 9;
+	player->y = SCREEN_HEIGHT / 10 * 8;
 
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
 
-		ClearBackground(RAYWHITE);
+		ClearBackground(BLACK);
 
-		player->show();
-		player->Update();
+		if (player->alive)
+		{
+			player->show();
+			player->Update();
+			DrawText(FormatText("Score: %i", player->score), 10, 10, 30, WHITE);
+		}
+		else
+		{
+			DrawText(FormatText("Score: %i", player->score), SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 +70, 40, GREEN);
+			DrawText("Game Over", SCREEN_WIDTH / 2 - 140, SCREEN_HEIGHT / 2, 50, RED);
+		}
+
 
 		spawnhandler->Update();
 
 		//bullet render update and collision
-		for (int i = player->bullets.size() - 1; i >= 0; i--)
-		{
-			player->bullets[i]->show();
-			player->bullets[i]->Update();
-			for (int j = spawnhandler->enemys.size() - 1; j >= 0; j--)
+		if (!player->bullets.empty()) {
+			for (int i = player->bullets.size() -1; i >= 0; i--)
 			{
-				if (CheckCollisionCircles(Vector2(spawnhandler->enemys[j]->x, spawnhandler->enemys[j]->y), 20, Vector2(player->bullets[i]->x, player->bullets[i]->y), 20))
+				player->bullets[i]->show();
+				player->bullets[i]->Update();
+				for (int j = spawnhandler->enemys.size() -1 ; j >= 0; j--)
 				{
-					std::cout << "Enemy Hit!" << std::endl;
-					delete player->bullets[i];
-					player->bullets.erase(player->bullets.begin() + i);
-					delete spawnhandler->enemys[j];
-					spawnhandler->enemys.erase(spawnhandler->enemys.begin() + j);
+					if (CheckCollisionCircles(Vector2(spawnhandler->enemys[j]->x, spawnhandler->enemys[j]->y), 20.0f, Vector2(player->bullets[i]->x, player->bullets[i]->y), 20.0f))
+					{
+						delete player->bullets[i];
+						delete spawnhandler->enemys[j];
+						spawnhandler->enemys.erase(spawnhandler->enemys.begin() + j);
+						player->score++;
+					}
 				}
 			}
 		}
-		for (int i = spawnhandler->enemys.size() - 1; i >= 0; i--)
+		for (int x = spawnhandler->enemys.size() - 1; x >= 0; x--)
 		{
-			spawnhandler->enemys[i]->player = player;
-			spawnhandler->enemys[i]->show();
-			spawnhandler->enemys[i]->Update();
+			spawnhandler->enemys[x]->player = player;
+			spawnhandler->enemys[x]->show();
+			spawnhandler->enemys[x]->Update();
+			if (CheckCollisionCircles(Vector2(spawnhandler->enemys[x]->x, spawnhandler->enemys[x]->y), 20.0f, Vector2(player->x, player->y), 20.0f))
+			{
+				player->alive = false;
+			}
 		}
 		
 

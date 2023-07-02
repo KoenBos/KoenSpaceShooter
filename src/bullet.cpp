@@ -4,7 +4,8 @@
 
 Bullet::Bullet(Texture2D t) : Entity(t)
 {
-
+	//randomize speed
+	speed = GetRandomValue(800, 1000);
 }
 
 Bullet::~Bullet()
@@ -14,5 +15,6 @@ Bullet::~Bullet()
 
 void Bullet::Update()
 {
-	this->y -= 500 * GetFrameTime();
+	this->y -= speed * GetFrameTime();
+	this->x += 5 * sin(GetTime() * 100);
 }

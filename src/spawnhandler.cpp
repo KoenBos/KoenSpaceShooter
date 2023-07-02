@@ -15,16 +15,16 @@ Spawnhandler::~Spawnhandler()
 
 void Spawnhandler::Update()
 {
-	if (IsKeyPressed('Q'))
+	if (IsKeyDown('Q'))
 	{
 		Spawn();
 	}
 }
-//shoot bullet
+
 void Spawnhandler::Spawn()
 {
 	Enemy* enemy = new Enemy(rs->GetTexture(ASSETS_PATH"enemy.png"));
 	enemys.push_back(enemy);
-	enemy->x = x;
-	enemy->y = y;
+	enemy->x = x + GetRandomValue(-270, 220);
+	enemy->y = 0;
 }

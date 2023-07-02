@@ -15,7 +15,7 @@ public:
 	Texture2D t;
 	Player* player;
 	int health = 100;
-
+	float speed = 100;
 
 		
 

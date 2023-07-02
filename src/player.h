@@ -15,6 +15,9 @@ public:
 	void Update();
 	void Shoot();
 	bool alive;
+	int score;
+	float shootDelay;
+	float delay;
 	int SCREEN_WIDTH;
 	int SCREEN_HEIGHT;
 	ResourceManager* rs = ResourceManager::Instance();
